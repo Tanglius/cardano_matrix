@@ -1,0 +1,613 @@
+// import { useSelector } from "react-redux";
+import CardsList from "../components/CardsList";
+// import { setTools } from "../store/toolsSlice";
+
+// const data = [
+//   {
+//     title: "Blockfrost",
+//     description: "Instant and scalable API to the Cardano blockchain.",
+//     preview: 'require("./builder-tools/blockfrost.png")',
+//     website: "https://blockfrost.io",
+//     getstarted: "/docs/get-started/blockfrost",
+//     tags: ["favorite", "getstarted", "api"],
+//     releases: [
+//       {
+//         version: "0.3.2",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//       {
+//         version: "0.3.1",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Cardano Serialization Library",
+//     description:
+//       "Library for serialization & deserialization of data structures used in Cardano's Haskell implementation.",
+//     preview: 'require("./builder-tools/cardano-serialization-lib.png")',
+//     website: "https://github.com/Emurgo/cardano-serialization-lib",
+//     getstarted: "/docs/get-started/cardano-serialization-lib/overview",
+//     tags: ["getstarted", "library", "rust"],
+//     releases: [
+//       {
+//         version: "10.0.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["babbage", "cip32", "cip33"],
+//       },
+//       {
+//         version: "9.3.0",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "cardanocli-js",
+//     description: "A library that wraps the cardano-cli in JavaScript.",
+//     preview: 'require("./builder-tools/cardanocli-js.png")',
+//     website: "https://github.com/Berry-Pool/cardanocli-js",
+//     getstarted: "/docs/get-started/cardanocli-js",
+//     tags: ["getstarted", "library"],
+//     releases: [
+//       {
+//         version: "1.2.1",
+//         latest: true,
+//         dependencies: ["cardano-cli"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//       {
+//         version: "1.2.0",
+//         dependencies: ["cardano-cli"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Dandelion APIs",
+//     description:
+//       "Kubernetes-based project to easily deploy Cardano APIs and a free, hosted community service to access all of them instantly.",
+//     preview: 'require("./builder-tools/dandelion-apis.png")',
+//     website: "https://gimbalabs.com/dandelion",
+//     getstarted: "/docs/get-started/dandelion-apis",
+//     tags: ["getstarted", "api"],
+//     releases: [
+//       {
+//         version: "0.9.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31", "cip32"],
+//       },
+//       {
+//         version: "0.8.5",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Ogmios",
+//     description:
+//       "Ogmios is a lightweight bridge interface (WebSocket + JSON/RPC) for cardano-node.",
+//     preview: 'require("./builder-tools/ogmios.png")',
+//     website: "https://ogmios.dev",
+//     getstarted: "/docs/get-started/ogmios",
+//     tags: ["favorite", "getstarted", "library"],
+//     releases: [
+//       {
+//         version: "4.3.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["babbage", "cip32", "cip33"],
+//       },
+//       {
+//         version: "4.2.0",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Cardano Client Library",
+//     description:
+//       "A client library for Cardano in Java. For some features like transaction signing and address generation, it currently uses cardano-serialization-lib rust library through JNI.",
+//     preview: 'require("./builder-tools/cardano-client-lib.png")',
+//     website: "https://github.com/bloxbean/cardano-client-lib",
+//     getstarted: null,
+//     tags: ["library", "java"],
+//     releases: [
+//       {
+//         version: "2.1.5",
+//         latest: true,
+//         dependencies: ["cardano-serialization-lib"],
+//         traits: ["babbage", "cip31", "cip32"],
+//       },
+//       {
+//         version: "2.1.0",
+//         dependencies: ["cardano-serialization-lib"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "cardano-addresses TypeScript binding",
+//     description:
+//       "This is a Typescript/Javascript version of the cardano-addresses API. It includes a web demo.",
+//     preview:
+//       'require("./builder-tools/cardano-addresses-typescript-binding.png")',
+//     website: "https://www.npmjs.com/package/cardano-addresses",
+//     getstarted: null,
+//     tags: ["library", "typescript"],
+//     releases: [
+//       {
+//         version: "1.0.3",
+//         latest: true,
+//         dependencies: ["cardano-addresses"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//       {
+//         version: "1.0.2",
+//         dependencies: ["cardano-addresses"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Heidrun",
+//     description:
+//       "A lightweight, event-driven framework for building Cardano-native dApps.",
+//     preview: 'require("./builder-tools/heidrun.png")',
+//     website: "https://heidrun.io",
+//     getstarted: null,
+//     tags: ["library", "framework"],
+//     releases: [
+//       {
+//         version: "1.5.2",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31", "cip32"],
+//       },
+//       {
+//         version: "1.5.1",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "cardano-wallet-js",
+//     description:
+//       "A JavaScript library for interacting with the Cardano wallet.",
+//     preview: 'require("./builder-tools/cardano-wallet-js.png")',
+//     website: "https://github.com/input-output-hk/cardano-wallet-js",
+//     getstarted: null,
+//     tags: ["library", "javascript"],
+//     releases: [
+//       {
+//         version: "2.0.0",
+//         latest: true,
+//         dependencies: ["cardano-wallet"],
+//         traits: ["babbage", "cip32", "cip33"],
+//       },
+//       {
+//         version: "1.5.0",
+//         dependencies: ["cardano-wallet"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "CardanoSharp Wallet",
+//     description: "A .NET library for interacting with the Cardano blockchain.",
+//     preview: 'require("./builder-tools/cardanosharp-wallet.png")',
+//     website: "https://github.com/CardanoSharp/cardanosharp-wallet",
+//     getstarted: null,
+//     tags: ["library", "dotnet"],
+//     releases: [
+//       {
+//         version: "3.0.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["babbage", "cip32"],
+//       },
+//       {
+//         version: "2.5.0",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Cardano Metadata Oracle",
+//     description:
+//       "A framework for creating and managing metadata oracles on the Cardano blockchain.",
+//     preview: 'require("./builder-tools/cardano-metadata-oracle.png")',
+//     website: "https://github.com/input-output-hk/cardano-metadata-oracle",
+//     getstarted: null,
+//     tags: ["library", "metadata"],
+//     releases: [
+//       {
+//         version: "1.0.1",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//       {
+//         version: "1.0.0",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Guild Operators Suite",
+//     description: "A collection of tools for Cardano stake pool operators.",
+//     preview: 'require("./builder-tools/guild-operators-suite.png")',
+//     website: "https://cardano-community.github.io/guild-operators/",
+//     getstarted: null,
+//     tags: ["operations", "tools"],
+//     releases: [
+//       {
+//         version: "5.2.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["babbage", "cip32", "cip33"],
+//       },
+//       {
+//         version: "5.1.0",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "libada-go",
+//     description: "A Go library for working with the Cardano blockchain.",
+//     preview: 'require("./builder-tools/libada-go.png")',
+//     website: "https://github.com/cardano-community/libada-go",
+//     getstarted: null,
+//     tags: ["library", "golang"],
+//     releases: [
+//       {
+//         version: "0.3.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31", "cip32"],
+//       },
+//       {
+//         version: "0.2.5",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Pooldata API",
+//     description: "API service providing detailed information on Cardano pools.",
+//     preview: 'require("./builder-tools/pooldata-api.png")',
+//     website: "https://pool.pm",
+//     getstarted: null,
+//     tags: ["api", "pools"],
+//     releases: [
+//       {
+//         version: "1.4.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["babbage", "cip32"],
+//       },
+//       {
+//         version: "1.3.5",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Python Module",
+//     description: "A Python module for interacting with the Cardano blockchain.",
+//     preview: 'require("./builder-tools/python-module.png")',
+//     website: "https://pypi.org/project/cardano/",
+//     getstarted: null,
+//     tags: ["library", "python"],
+//     releases: [
+//       {
+//         version: "0.2.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31", "cip32"],
+//       },
+//       {
+//         version: "0.1.5",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Plutus Playground",
+//     description: "A web-based environment to write and test Plutus contracts.",
+//     preview: 'require("./builder-tools/plutus-playground.png")',
+//     website: "https://playground.plutus.iohkdev.io/",
+//     getstarted: null,
+//     tags: ["playground", "plutus"],
+//     releases: [
+//       {
+//         version: "1.7.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31", "cip32"],
+//       },
+//       {
+//         version: "1.6.5",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   {
+//     title: "Marlowe Playground",
+//     description: "A web-based environment to write and test Marlowe contracts.",
+//     preview: 'require("./builder-tools/marlowe-playground.png")',
+//     website: "https://playground.marlowe.iohkdev.io/",
+//     getstarted: null,
+//     tags: ["playground", "marlowe"],
+//     releases: [
+//       {
+//         version: "0.9.0",
+//         latest: true,
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo", "cip31", "cip32"],
+//       },
+//       {
+//         version: "0.8.5",
+//         dependencies: ["cardano-node"],
+//         traits: ["alonzo"],
+//       },
+//     ],
+//   },
+//   // {
+//   //   title: "Automint",
+//   //   description:
+//   //     "A Python library that benefits the token & NFT communities. Scripts allow easy wallet management, automatic creation of unlocked and time-locked policy IDs, as well as the ability to quickly: build, sign, and submit transactions, and much more. Note: This library relies on wrapping cardano-cli.",
+//   //   preview: 'require("./builder-tools/automint.png")',
+//   //   website: "https://github.com/creativequotient/automint",
+//   //   getstarted: null,
+//   //   tags: ["library"],
+//   // },
+//   // {
+//   //   title: "Ansible cardano-node",
+//   //   description:
+//   //     "An Ansible playbook that helps operators provision and maintain a secure Cardano stake pool.",
+//   //   preview: 'require("./builder-tools/ansible-cardano-node.png")',
+//   //   website: "https://github.com/moaipool/ansible-cardano-node",
+//   //   getstarted: "/docs/operate-a-stake-pool/ansible-cardano-node",
+//   //   tags: ["getstarted", "operatortool"],
+//   // },
+//   // {
+//   //   title: "Fracada",
+//   //   description:
+//   //     "Plutus dApp which enables users to fractionalize their NFTs. The contract locks an NFT and mints a number of tokens representing fractions of it. To get the NFT back, the fraction tokens are burned.",
+//   //   preview: 'require("./builder-tools/fracada.png")',
+//   //   website: "https://github.com/dcSpark/fracada",
+//   //   getstarted: null,
+//   //   tags: ["favorite", "plutus", "nft"],
+//   // },
+//   // {
+//   //   title: "Cardano Light Tools",
+//   //   description:
+//   //     "A set of lightweight tools to operate and maintain a Cardano Stake Pool. Currently includes a leaderlog script based on BlockFrost (no need for working cardano-cli/cardano-node setup and less CPU/mem utilization) and a monitoring script to log relevant metrics directly into a text file in human-readable form (less complex and more resource-efficient than Grafana).",
+//   //   preview: 'require("./builder-tools/cardano-light-tools.png")',
+//   //   website: "https://github.com/orpheus-antpool/cardano-light-tools",
+//   //   getstarted: null,
+//   //   tags: ["operatortool"],
+//   // },
+//   // {
+//   //   title: "cardano-wallet-interface",
+//   //   description:
+//   //     "A Javascript/Typescript library to easily interact with the dApp connector of various wallets.",
+//   //   preview: 'require("./builder-tools/cardano-wallet-interface.png")',
+//   //   website: "https://github.com/HarmonicPool/cardano-wallet-interface",
+//   //   getstarted: null,
+//   //   tags: ["library", "javascript"],
+//   // },
+//   // {
+//   //   title: "Plutus Fee Estimator",
+//   //   description:
+//   //     "Helps developers to estimate the cost of smart contract scripts for maximum efficiency and minimum cost.",
+//   //   preview: 'require("./builder-tools/plutus-fee-estimator.png")',
+//   //   website:
+//   //     "https://testnets.cardano.org/en/testnets/cardano/tools/plutus-fee-estimator/",
+//   //   getstarted: null,
+//   //   tags: ["plutus"],
+//   // },
+//   // {
+//   //   title: "Plutus Extra",
+//   //   description: "A collection of Plutus-related helper libraries.",
+//   //   preview: 'require("./builder-tools/plutus-extra.png")',
+//   //   website: "https://github.com/Liqwid-Labs/plutus-extra",
+//   //   getstarted: null,
+//   //   tags: ["library", "plutus"],
+//   // },
+//   // {
+//   //   title: "PyCardano",
+//   //   description:
+//   //     "A Cardano library written in Python. It allows users to build and sign transactions without depending on other Cardano serialization tools (such as cardano-cli and cardano-serialization-lib), making it a lightweight library that is easy and fast to set up in all kinds of environments.",
+//   //   preview: 'require("./builder-tools/pycardano.png")',
+//   //   website: "https://github.com/cffls/pycardano",
+//   //   getstarted: null,
+//   //   tags: ["library", "api", "python"],
+//   // },
+//   // {
+//   //   title: "Oura - the tail of Cardano",
+//   //   description:
+//   //     "Oura is a rust-native implementation of a pipeline that connects to the tip of a Cardano node through a combination of Ouroboros mini-protocol, filters the events that match a particular pattern and then submits a succint, self-contained payload to pluggable observers called 'sinks'.",
+//   //   preview: 'require("./builder-tools/oura.png")',
+//   //   website: "https://github.com/txpipe/oura",
+//   //   getstarted: null,
+//   //   tags: ["favorite", "rust", "chainindex"],
+//   // },
+//   // {
+//   //   title: "cardano-wallet-connector",
+//   //   description:
+//   //     "A quickstart and boilerplate code to connect dApps with Web wallets using the latest cardano-serialization-lib. It includes examples with how to lock ADA and Tokens (NFTs) at a plutus script address and then how to redeem them from the plutus script address ... All from the front end. The project is bootstrapped with a Create React App, so is quick to get started for those familiar with this front end framework",
+//   //   preview: 'require("./builder-tools/cardano-wallet-connector.png")',
+//   //   website: "https://github.com/dynamicstrategies/cardano-wallet-connector",
+//   //   getstarted: null,
+//   //   tags: ["javascript", "nft", "plutus"],
+//   // },
+//   // {
+//   //   title: "Stricahq Typhonjs Wallet",
+//   //   description: "Pure javascript Cardano wallet library.",
+//   //   preview: 'require("./builder-tools/typhonjs.png")',
+//   //   website: "https://github.com/StricaHQ/typhonjs",
+//   //   getstarted: null,
+//   //   tags: ["javascript", "library", "plutus"],
+//   // },
+//   // {
+//   //   title: "IntelliJ IDE",
+//   //   description: "An IntelliJ plugin for Cardano blockchain",
+//   //   preview: 'require("./builder-tools/IDE.png")',
+//   //   website: "https://intelliada.bloxbean.com",
+//   //   getstarted: null,
+//   //   tags: ["java", "IDE"],
+//   // },
+//   // {
+//   //   title: "Cardano Blockchain Snapshots",
+//   //   description: "Download the latest Cardano blockchain snapshot",
+//   //   preview: 'require("./builder-tools/cardano-snapshots.png")',
+//   //   website: "https://cSnapshots.io",
+//   //   getstarted: null,
+//   //   tags: ["operatortool"],
+//   // },
+//   // {
+//   //   title: "Koios",
+//   //   description:
+//   //     "Elastic light/full-mode API query-layer for Cardano Blockchain.",
+//   //   preview: 'require("./builder-tools/koios.png")',
+//   //   website: "https://koios.rest",
+//   //   getstarted: "/docs/get-started/koios",
+//   //   tags: ["getstarted", "api"],
+//   // },
+//   // {
+//   //   title: "Pallas",
+//   //   description:
+//   //     "Rust-native building blocks for the Cardano blockchain ecosystem",
+//   //   preview: 'require("./builder-tools/pallas.svg")',
+//   //   website: "https://github.com/txpipe/pallas#readme",
+//   //   getstarted: null,
+//   //   tags: ["library", "rust"],
+//   // },
+//   // {
+//   //   title: "Scrolls",
+//   //   description: "Read-optimized cache of Cardano on-chain entities",
+//   //   preview: 'require("./builder-tools/scrolls.png")',
+//   //   website: "https://github.com/txpipe/scrolls#readme",
+//   //   getstarted: null,
+//   //   tags: ["chainindex", "api", "favorite"],
+//   // },
+//   // {
+//   //   title: "Kupo",
+//   //   description: "A lightweight & configurable chain-index for Cardano.",
+//   //   preview: 'require("./builder-tools/kupo.png")',
+//   //   website: "https://github.com/CardanoSolutions/kupo#readme",
+//   //   getstarted: null,
+//   //   tags: ["chainindex", "api", "favorite"],
+//   // },
+//   // {
+//   //   title: "cardano-multiplatform-lib",
+//   //   description:
+//   //     "A library of utilities and codecs for serialization/deserialization of core data-stuctures. Replacement for 'cardano-serialization-lib'.",
+//   //   preview: 'require("./builder-tools/cardano-multiplatform-lib.png")',
+//   //   website:
+//   //     "https://github.com/dcSpark/cardano-multiplatform-lib#cardano-multiplatform-lib",
+//   //   getstarted: null,
+//   //   tags: ["library", "rust", "favorite"],
+//   // },
+//   // {
+//   //   title: "cardano-js-sdk",
+//   //   description:
+//   //     "JavaScript SDK for interacting with Cardano, providing various key management options, soon to be including support for popular hardware wallets.",
+//   //   preview: 'require("./builder-tools/cardano-js-sdk.png")',
+//   //   website: "https://github.com/input-output-hk/cardano-js-sdk/#readme",
+//   //   getstarted: null,
+//   //   tags: ["library", "javascript"],
+//   // },
+//   // {
+//   //   title: "Lucid",
+//   //   description:
+//   //     "Lucid is a library, which allows you to create Cardano transactions and off-chain code for your Plutus contracts in JavaScript and Node.js.",
+//   //   preview: 'require("./builder-tools/lucid.svg")',
+//   //   website: "https://github.com/Berry-Pool/lucid#readme",
+//   //   getstarted: null,
+//   //   tags: ["library", "javascript", "plutus"],
+//   // },
+//   // {
+//   //   title: "Pirouette",
+//   //   description:
+//   //     "Pirouette is a semi-automatic code extraction tool for model-checking. It extracts a TLA+ specification from a Plutus Mealy Machine.",
+//   //   preview: 'require("./builder-tools/pirouette.png")',
+//   //   website: "https://github.com/tweag/pirouette#readme",
+//   //   getstarted: null,
+//   //   tags: ["library", "plutus"],
+//   // },
+//   // {
+//   //   title: "Pluto",
+//   //   description: "An untyped Plutus Core assembler.",
+//   //   preview: 'require("./builder-tools/pluto.png")',
+//   //   website: "https://github.com/Plutonomicon/pluto#pluto",
+//   //   getstarted: null,
+//   //   tags: ["library", "plutus"],
+//   // },
+//   // {
+//   //   title: "Plutonomicon",
+//   //   description:
+//   //     "A developer-driven guide to the Plutus smart contract language in practice.",
+//   //   preview: 'require("./builder-tools/plutonomicon.png")',
+//   //   website: "https://github.com/Plutonomicon/plutonomicon#readme",
+//   //   getstarted: null,
+//   //   tags: ["plutus"],
+//   // },
+//   // {
+//   //   title: "Plutarch",
+//   //   description:
+//   //     "Plutarch is a typed eDSL in Haskell for writing efficient Plutus Core validators.",
+//   //   preview: 'require("./builder-tools/plutarch.png")',
+//   //   website: "https://github.com/Plutonomicon/plutarch#plutarch",
+//   //   getstarted: null,
+//   //   tags: ["plutus"],
+//   // },
+//   // {
+//   //   title: "Tangocrypto",
+//   //   description:
+//   //     "A suite of high availability APIs and developer tools providing fast and reliable access to the Cardano network so you can focus on building and growing your products.",
+//   //   preview: 'require("./builder-tools/tangocrypto.png")',
+//   //   website: "https://tangocrypto.com",
+//   //   getstarted: "/docs/get-started/tangocrypto",
+//   //   tags: ["getstarted", "api", "nft", "chainindex"],
+//   // },
+// ];
+
+function Home() {
+  // const tools = useSelector((state) => state.tools.list);
+
+  // console.log("HOME -> tools: ", tools);
+  // console.log("HOME -> data: ", data);
+  // console.log(
+  //   "HOME -> tool names: ",
+  //   data.map(({ title }) => title)
+  // );
+
+  return (
+    <div className="w-screen">
+      <h1 className="text-center">Cardano Tools</h1>
+
+      <CardsList />
+    </div>
+  );
+}
+
+export default Home;
