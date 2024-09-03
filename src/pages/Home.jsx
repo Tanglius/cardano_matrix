@@ -1,5 +1,5 @@
 // import { useSelector } from "react-redux";
-import CardsList from "../components/CardsList";
+// import CardsList from "../components/CardsList";
 // import { setTools } from "../store/toolsSlice";
 
 // const data = [
@@ -605,7 +605,7 @@ function Home() {
     <div className="w-screen">
       <h1 className="text-center">Cardano Tools</h1>
 
-      <CardsList />
+      {/* <CardsList /> */}
     </div>
   );
 }
