@@ -9,6 +9,7 @@ import {
   Chip,
   Collapse,
   Grid,
+  Grid2,
   IconButton,
   Link,
   Typography,
@@ -134,21 +135,22 @@ const ExpandableCard = ({
                     Version: {release.version} {release.latest && "(Latest)"}
                   </Typography>
 
-                  <Grid
+                  <Grid2
                     container
                     spacing={2}
                     direction="row"
                     alignItems="center"
+                    wrap="nowrap"
                   >
                     {release.dependencies.map((dependency, depIndex) => (
-                      <Grid container direction="row" item key={depIndex}>
+                      <Grid2 item key={depIndex}>
                         <DependencyCard
                           name={dependency.name}
                           url={dependency.url}
                         />
-                      </Grid>
+                      </Grid2>
                     ))}
-                  </Grid>
+                  </Grid2>
 
                   <Typography variant="body2">
                     Traits: {release.traits.join(", ")}
