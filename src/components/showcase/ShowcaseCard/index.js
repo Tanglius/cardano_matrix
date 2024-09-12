@@ -76,6 +76,7 @@ const ShowcaseCard = memo(
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const treeContainerRef = useRef(null);
+    const tooltipRef = useRef(null);
 
     useEffect(() => {
       if (isExpanded && treeContainerRef.current) {
@@ -211,6 +212,15 @@ const ShowcaseCard = memo(
                 .attr("fill", "#A9C9FF")
                 .attr("stroke-width", 4);
             }
+
+            const tooltip = tooltipRef.current;
+            tooltip.innerHTML = d.data.name;
+            tooltip.style.visibility = "visible";
+
+            const containerRect =
+              treeContainerRef.current.getBoundingClientRect();
+            tooltip.style.top = `${event.clientY - containerRect.top + 10}px`;
+            tooltip.style.left = `${event.clientX - containerRect.left + 10}px`;
           })
           .on("mouseout", function (event, d) {
             if (d.depth !== 0) {
@@ -221,6 +231,9 @@ const ShowcaseCard = memo(
                 .attr("fill", "white")
                 .attr("stroke-width", 2);
             }
+
+            const tooltip = tooltipRef.current;
+            tooltip.style.visibility = "hidden";
           });
 
         node
@@ -269,7 +282,6 @@ const ShowcaseCard = memo(
 
       const matrix = dependencies.map((dep) => {
         return traits.map((trait) => {
-          // Find which release has both the dependency and trait
           const matchingRelease = releases.find(
             (release) =>
               release.dependencies.includes(dep) &&
@@ -320,6 +332,8 @@ const ShowcaseCard = memo(
 
           {showcase?.releases && (
             <div className={styles.treeContainerWrapper}>
+              <div ref={tooltipRef} className={styles.customTooltip} />
+
               <div className={styles.toggleAndDropdownWrapper}>
                 <button
                   onClick={onToggle}
@@ -331,7 +345,6 @@ const ShowcaseCard = memo(
                   {isExpanded ? "Hide Details" : "Show Dependencies"}
                 </button>
 
-                {/* Release Dropdown */}
                 {isExpanded && (
                   <div className={styles.releaseDropdown}>
                     <label htmlFor="release-select">Select Release: </label>
