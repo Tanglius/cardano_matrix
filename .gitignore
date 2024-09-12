@@ -52,3 +52,6 @@ yarn.lock
 
 # Temporary files that sometimes get checked in by accident
 .yarn/**
+
+# Allow files in src/plugins/changelog
+!src/plugins/changelog/
