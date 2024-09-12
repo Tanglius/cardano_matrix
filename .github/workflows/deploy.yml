@@ -20,15 +20,19 @@ jobs:
         with:
           node-version: 18 # Adjust based on your Node.js version
 
-      # Step 3: Install dependencies
+      # Step 3: Install dependencies (including ts-node)
       - name: Install dependencies
         run: yarn install
 
-      # Step 4: Run the script to generate the necessary file (if this is the script that generates it)
-      - name: Run rust-library.ts script to generate files
-        run: ts-node scripts/rust-library.ts
+      # Step 4: Verify ts-node installation (for debugging)
+      - name: Check ts-node version
+        run: yarn ts-node -v # This ensures ts-node is installed and available
 
-      # Step 5: Verify that the file is generated (for debugging purposes)
+      # Step 5: Run the script to generate the necessary file (rust-library.ts)
+      - name: Run rust-library.ts script to generate files
+        run: yarn ts-node scripts/rust-library.ts
+
+      # Step 6: Verify that the file is generated (for debugging purposes)
       - name: Verify file existence
         run: |
           if [ ! -f "./docs/get-started/cardano-serialization-lib/transaction-metadata.md" ]; then
@@ -38,11 +42,11 @@ jobs:
             echo "File exists after script execution: ./docs/get-started/cardano-serialization-lib/transaction-metadata.md"
           fi
 
-      # Step 6: Build the Docusaurus site
+      # Step 7: Build the Docusaurus site
       - name: Build Docusaurus site
         run: yarn build
 
-      # Step 7: Deploy the Docusaurus site to GitHub Pages
+      # Step 8: Deploy the Docusaurus site to GitHub Pages
       - name: Deploy to GitHub Pages
         run: yarn deploy
         env:
