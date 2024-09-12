@@ -1,0 +1,345 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+.showcaseCardImage {
+  overflow: hidden;
+  height: 150px;
+  border-bottom: 2px solid var(--ifm-color-emphasis-200);
+}
+
+.showcaseCardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.showcaseCardTitle {
+  margin-bottom: 0;
+  flex: 1 1 auto;
+}
+
+.showcaseCardTitle a {
+  text-decoration: none;
+  background: linear-gradient(
+      var(--ifm-color-primary),
+      var(--ifm-color-primary)
+    )
+    0% 100% / 0% 1px no-repeat;
+  transition: background-size ease-out 200ms;
+}
+
+.showcaseCardTitle a:not(:focus):hover {
+  background-size: 100% 1px;
+}
+
+.showcaseCardTitle,
+.showcaseCardHeader .svgIconFavorite {
+  margin-right: 0.25rem;
+}
+
+.showcaseCardSrcBtn {
+  margin-left: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border: none !important;
+}
+
+.showcaseCardSrcBtn:focus-visible {
+  background-color: var(--ifm-color-secondary-dark);
+}
+
+html[data-theme="dark"] .showcaseCardSrcBtn {
+  background-color: var(--ifm-color-emphasis-200) !important;
+  color: inherit;
+}
+
+html[data-theme="dark"] .showcaseCardSrcBtn:hover {
+  background-color: var(--ifm-color-emphasis-300) !important;
+}
+
+.showcaseCardBody {
+  font-size: smaller;
+  line-height: 1.66;
+}
+
+.cardFooter {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.675rem;
+  border: 1px solid var(--ifm-color-secondary-darkest);
+  cursor: default;
+  margin-right: 6px;
+  margin-bottom: 6px !important;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tag .textLabel {
+  margin-left: 8px;
+}
+
+.tag .colorLabel {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+/* CSS for making the card full width when dependencies are shown */
+.fullWidthCard {
+  grid-column: 1 / -1;
+}
+
+@media screen and (max-width: 966px) {
+  .fullWidthCard {
+    grid-column: 1 / -1;
+  }
+}
+
+.fullWidthCard .card__image {
+  width: 100%;
+}
+
+.toggleAndDropdownWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+/* Pagination controls */
+.paginationButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #0438af;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.paginationButton:hover {
+  background-color: #022a7f;
+}
+
+.paginationButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Default: Stack in a column on narrow screens */
+@media (max-width: 767px) {
+  .toggleAndDropdownWrapper {
+    flex-direction: column; /* Stack items vertically on narrow screens */
+    align-items: stretch;
+  }
+
+  .toggleButton,
+  .releaseDropdown {
+    width: 100%; /* Make buttons and dropdown take full width */
+    margin-bottom: 10px; /* Add spacing between the items */
+  }
+
+  .releaseDropdown {
+    margin-bottom: 0; /* Remove extra margin from the last element */
+  }
+
+  .paginationButton {
+    width: 40px; /* Smaller size for the icon */
+    height: 40px;
+    padding: 0;
+    font-size: 0; /* Hide the text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Add the icons as background images or use SVGs */
+  .prevButton::before {
+    content: "◀"; /* Alternatively, use an SVG icon here */
+    font-size: 20px;
+    color: white;
+  }
+
+  .nextButton::before {
+    content: "▶"; /* Alternatively, use an SVG icon here */
+    font-size: 20px;
+    color: white;
+  }
+}
+
+/* Wide screen: Keep the elements in a single row */
+@media (min-width: 768px) {
+  .toggleAndDropdownWrapper {
+    flex-direction: row; /* Keep items in a single row on wide screens */
+  }
+
+  .toggleButton,
+  .releaseDropdown {
+    width: auto; /* Reset width to auto for large screens */
+  }
+}
+
+/* Styling for the toggle button */
+.toggleButton {
+  background-color: #0438af;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.toggleButton:hover {
+  background-color: #022a7f;
+}
+
+/* Dropdown styling */
+.releaseDropdown {
+  z-index: 10;
+  background-color: white;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+}
+
+.releaseDropdown label {
+  margin-right: 10px;
+}
+
+.releaseDropdown select {
+  padding: 5px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+}
+
+/* D3 SVG Wrapper */
+.treeContainerWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.svgWrapper {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.treeSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.prevButton {
+  left: 0;
+}
+
+.nextButton {
+  right: 0;
+}
+
+.prevButton:disabled,
+.nextButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Trait Matrix Container */
+.traitMatrixContainer {
+  position: absolute; /* Overlay on top of the SVG container */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Ensure it covers the full height of its parent */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Semi-transparent background for overlay effect */
+  z-index: 10; /* Ensure it is above the svg container */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Show the Trait Matrix when it's active */
+.traitMatrixVisible {
+  display: block;
+  overflow: auto;
+  height: 100%;
+}
+
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #0438af;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.closeButton:hover {
+  background-color: #022a7f;
+}
+
+.traitMatrixTable {
+  overflow-x: auto;
+  display: block;
+  max-height: 400px;
+}
+
+.traitMatrixTable th,
+.traitMatrixTable td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: center;
+}
+
+.traitMatrixTable th {
+  background-color: #0438af;
+  color: white;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.scrollableTable {
+  display: block; /* Ensure the matrix is displayed */
+  width: 100%; /* Ensure it fits within the container */
+}
