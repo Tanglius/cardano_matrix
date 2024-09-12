@@ -60,6 +60,13 @@ function ShowcaseCardTag({ tags }) {
   );
 }
 
+function truncateText(text, maxLength) {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+}
+
+const maxTextLength = 10;
+const nodeRadius = 17.25 * 1.5;
+
 const ShowcaseCard = memo(
   ({ showcase, isExpanded, onToggle, onChildClick }) => {
     const [selectedRelease, setSelectedRelease] = useState(
@@ -129,18 +136,19 @@ const ShowcaseCard = memo(
       const nodes = root.descendants();
       const aspectRatioFactor = width / height;
 
-      // Adjust force simulation for small node sets
       const simulation = d3
         .forceSimulation(nodes)
         .force("center", d3.forceCenter(0, 0))
         .force(
           "charge",
           d3.forceManyBody().strength(totalDependencies === 1 ? -150 : -30)
-        ) // Stronger repulsion for 1 node
+        )
         .force(
           "collide",
-          d3.forceCollide().radius(totalDependencies === 1 ? 60 : 17.25)
-        ) // Larger collision radius for fewer nodes
+          d3
+            .forceCollide()
+            .radius(totalDependencies === 1 ? nodeRadius * 3.5 : nodeRadius)
+        )
         .force(
           "x",
           d3
@@ -217,7 +225,7 @@ const ShowcaseCard = memo(
 
         node
           .append("circle")
-          .attr("r", 17.25)
+          .attr("r", nodeRadius)
           .attr("fill", (d) => (d.depth === 0 ? "#0438af" : "white"))
           .attr("stroke", "#0438af")
           .attr("stroke-width", 2);
@@ -227,13 +235,12 @@ const ShowcaseCard = memo(
           .attr("dy", "0.31em")
           .attr("x", 0)
           .attr("text-anchor", "middle")
-          .text((d) => d.data.name)
-          .attr("font-size", "6px")
+          .text((d) => truncateText(d.data.name, maxTextLength))
+          .attr("font-size", "8px")
           .attr("font-family", "sans-serif")
           .attr("fill", (d) => (d.depth === 0 ? "white" : "#333"));
 
         nodes.forEach((d) => {
-          const nodeRadius = 17.25;
           const maxX = (width / 2 - nodeRadius) / aspectRatioFactor;
           const maxY = height / 2 - nodeRadius;
 
