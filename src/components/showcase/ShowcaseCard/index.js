@@ -77,12 +77,25 @@ const ShowcaseCard = memo(
     const itemsPerPage = 10;
     const treeContainerRef = useRef(null);
     const tooltipRef = useRef(null);
+    const cardRef = useRef(null);
 
     useEffect(() => {
       if (isExpanded && treeContainerRef.current) {
         drawRadialTreeGraphWithPacking(selectedRelease);
       }
     }, [isExpanded, selectedRelease, currentPage, itemsPerPage]);
+
+    useEffect(() => {
+      if (isExpanded && cardRef.current) {
+        setTimeout(() => {
+          cardRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
+          });
+        }, 100);
+      }
+    }, [isExpanded]);
 
     const handleReleaseChange = useCallback(
       (event) => {
@@ -103,6 +116,10 @@ const ShowcaseCard = memo(
     const handlePrevPage = useCallback(() => {
       setCurrentPage((prevPage) => prevPage - 1);
     }, []);
+
+    const handleToggle = useCallback(() => {
+      onToggle();
+    }, [onToggle]);
 
     const drawRadialTreeGraphWithPacking = (release) => {
       d3.select(treeContainerRef.current).selectAll("*").remove();
@@ -300,6 +317,7 @@ const ShowcaseCard = memo(
 
     return (
       <li
+        ref={cardRef}
         className={clsx(
           "card shadow--md",
           isExpanded ? styles.fullWidthCard : ""
@@ -336,7 +354,7 @@ const ShowcaseCard = memo(
 
               <div className={styles.toggleAndDropdownWrapper}>
                 <button
-                  onClick={onToggle}
+                  onClick={handleToggle}
                   className={clsx(
                     "button button--primary button--sm",
                     styles.toggleButton
@@ -367,8 +385,6 @@ const ShowcaseCard = memo(
                 <div className={styles.svgWrapper}>
                   <svg ref={treeContainerRef} className={styles.treeSvg}></svg>
 
-                  {/* Trait Matrix, now inside the SVG Wrapper */}
-
                   {showTraitMatrix && (
                     <div
                       className={clsx(
@@ -385,7 +401,6 @@ const ShowcaseCard = memo(
                         Close
                       </button>
 
-                      {/* Trait Matrix Table */}
                       <table className={styles.traitMatrixTable}>
                         <thead>
                           <tr>
