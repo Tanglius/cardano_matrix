@@ -10,7 +10,14 @@ import { useLocation } from "@docusaurus/router";
 import Image from "@theme/IdealImage";
 import clsx from "clsx";
 import * as d3 from "d3";
-import React, { forwardRef, memo, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { Tags as ToolsTags } from "../../../data/builder-tools";
 import { Tags as ShowcaseTags } from "../../../data/showcases";
@@ -56,7 +63,7 @@ function ShowcaseCardTag({ tags }) {
 const ShowcaseCard = memo(
   ({ showcase, isExpanded, onToggle, onChildClick }) => {
     const [selectedRelease, setSelectedRelease] = useState(
-      showcase.releases[0]
+      showcase?.releases?.[0]
     );
     const [showTraitMatrix, setShowTraitMatrix] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -72,13 +79,13 @@ const ShowcaseCard = memo(
     const handleReleaseChange = useCallback(
       (event) => {
         const selectedVersion = event.target.value;
-        const newSelectedRelease = showcase.releases.find(
+        const newSelectedRelease = showcase?.releases?.find(
           (release) => release.version === selectedVersion
         );
         setSelectedRelease(newSelectedRelease);
         setCurrentPage(1);
       },
-      [showcase.releases]
+      [showcase?.releases]
     );
 
     const handleNextPage = useCallback(() => {
@@ -245,7 +252,7 @@ const ShowcaseCard = memo(
       const traitsSet = new Set();
       const dependenciesSet = new Set();
 
-      releases.forEach((release) => {
+      releases?.forEach((release) => {
         release.traits.forEach((trait) => traitsSet.add(trait));
         release.dependencies.forEach((dep) => dependenciesSet.add(dep));
       });
@@ -269,7 +276,7 @@ const ShowcaseCard = memo(
     };
 
     const { traits, dependencies, matrix } = generateTraitMatrix(
-      showcase.releases
+      showcase?.releases
     );
 
     return (
@@ -304,117 +311,118 @@ const ShowcaseCard = memo(
           </div>
           <p className={styles.showcaseCardBody}>{showcase.description}</p>
 
-          <div className={styles.treeContainerWrapper}>
-            <div className={styles.toggleAndDropdownWrapper}>
-              {/* Show Dependencies Button */}
-              <button
-                onClick={onToggle}
-                className={clsx(
-                  "button button--primary button--sm",
-                  styles.toggleButton
-                )}
-              >
-                {isExpanded ? "Hide Details" : "Show Dependencies"}
-              </button>
+          {showcase?.releases && (
+            <div className={styles.treeContainerWrapper}>
+              <div className={styles.toggleAndDropdownWrapper}>
+                <button
+                  onClick={onToggle}
+                  className={clsx(
+                    "button button--primary button--sm",
+                    styles.toggleButton
+                  )}
+                >
+                  {isExpanded ? "Hide Details" : "Show Dependencies"}
+                </button>
 
-              {/* Release Dropdown */}
+                {/* Release Dropdown */}
+                {isExpanded && (
+                  <div className={styles.releaseDropdown}>
+                    <label htmlFor="release-select">Select Release: </label>
+                    <select
+                      id="release-select"
+                      value={selectedRelease.version}
+                      onChange={handleReleaseChange}
+                    >
+                      {showcase.releases.map((release) => (
+                        <option key={release.version} value={release.version}>
+                          {release.version} {release.latest ? "(Latest)" : ""}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+
               {isExpanded && (
-                <div className={styles.releaseDropdown}>
-                  <label htmlFor="release-select">Select Release: </label>
-                  <select
-                    id="release-select"
-                    value={selectedRelease.version}
-                    onChange={handleReleaseChange}
-                  >
-                    {showcase.releases.map((release) => (
-                      <option key={release.version} value={release.version}>
-                        {release.version} {release.latest ? "(Latest)" : ""}
-                      </option>
-                    ))}
-                  </select>
+                <div className={styles.svgWrapper}>
+                  <svg ref={treeContainerRef} className={styles.treeSvg}></svg>
+
+                  {/* Trait Matrix, now inside the SVG Wrapper */}
+
+                  {showTraitMatrix && (
+                    <div
+                      className={clsx(
+                        styles.traitMatrixContainer,
+                        showTraitMatrix ? styles.traitMatrixVisible : ""
+                      )}
+                    >
+                      <h3>Trait Matrix</h3>
+
+                      <button
+                        className={styles.closeButton}
+                        onClick={() => setShowTraitMatrix(false)}
+                      >
+                        Close
+                      </button>
+
+                      {/* Trait Matrix Table */}
+                      <table className={styles.traitMatrixTable}>
+                        <thead>
+                          <tr>
+                            <th></th>
+                            {traits.map((trait, index) => (
+                              <th key={index}>{trait}</th>
+                            ))}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dependencies.map((dependency, rowIndex) => (
+                            <tr key={rowIndex}>
+                              <td>{dependency}</td>
+                              {matrix[rowIndex].map((cell, colIndex) => (
+                                <td key={colIndex}>{cell}</td>
+                              ))}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {selectedRelease.dependencies.length > itemsPerPage && (
+                    <>
+                      {currentPage > 1 && (
+                        <button
+                          className={clsx(
+                            styles.prevButton,
+                            styles.paginationButton
+                          )}
+                          onClick={handlePrevPage}
+                          disabled={currentPage === 1}
+                        >
+                          Previous
+                        </button>
+                      )}
+                      {currentPage <
+                        Math.ceil(
+                          selectedRelease.dependencies.length / itemsPerPage
+                        ) && (
+                        <button
+                          className={clsx(
+                            styles.nextButton,
+                            styles.paginationButton
+                          )}
+                          onClick={handleNextPage}
+                        >
+                          Next
+                        </button>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
             </div>
-
-            {isExpanded && (
-              <div className={styles.svgWrapper}>
-                <svg ref={treeContainerRef} className={styles.treeSvg}></svg>
-
-                {/* Trait Matrix, now inside the SVG Wrapper */}
-
-                {showTraitMatrix && (
-                  <div
-                    className={clsx(
-                      styles.traitMatrixContainer,
-                      showTraitMatrix ? styles.traitMatrixVisible : ""
-                    )}
-                  >
-                    <h3>Trait Matrix</h3>
-
-                    <button
-                      className={styles.closeButton}
-                      onClick={() => setShowTraitMatrix(false)}
-                    >
-                      Close
-                    </button>
-
-                    {/* Trait Matrix Table */}
-                    <table className={styles.traitMatrixTable}>
-                      <thead>
-                        <tr>
-                          <th></th>
-                          {traits.map((trait, index) => (
-                            <th key={index}>{trait}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dependencies.map((dependency, rowIndex) => (
-                          <tr key={rowIndex}>
-                            <td>{dependency}</td>
-                            {matrix[rowIndex].map((cell, colIndex) => (
-                              <td key={colIndex}>{cell}</td>
-                            ))}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                {selectedRelease.dependencies.length > itemsPerPage && (
-                  <>
-                    {currentPage > 1 && (
-                      <button
-                        className={clsx(
-                          styles.prevButton,
-                          styles.paginationButton
-                        )}
-                        onClick={handlePrevPage}
-                        disabled={currentPage === 1}
-                      >
-                        Previous
-                      </button>
-                    )}
-                    {currentPage <
-                      Math.ceil(
-                        selectedRelease.dependencies.length / itemsPerPage
-                      ) && (
-                      <button
-                        className={clsx(
-                          styles.nextButton,
-                          styles.paginationButton
-                        )}
-                        onClick={handleNextPage}
-                      >
-                        Next
-                      </button>
-                    )}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
+          )}
         </div>
         <ul className={clsx("card__footer", styles.cardFooter)}>
           <ShowcaseCardTag tags={showcase.tags} />

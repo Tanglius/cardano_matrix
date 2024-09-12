@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import Head from '@docusaurus/Head';
+import Head from "@docusaurus/Head";
 import Layout from "@theme/Layout";
 import ShowcaseTooltip from "@site/src/components/showcase/ShowcaseTooltip";
 import ShowcaseTagSelect from "@site/src/components/showcase/ShowcaseTagSelect";
@@ -16,7 +16,12 @@ import ShowcaseLatestToggle, {
 
 import PortalHero from "../portalhero";
 import { toggleListItem } from "../../utils/jsUtils";
-import { SortedShowcases, Tags, TagList, Showcases } from "../../data/showcases";
+import {
+  SortedShowcases,
+  Tags,
+  TagList,
+  Showcases,
+} from "../../data/showcases";
 import { useHistory, useLocation } from "@docusaurus/router";
 import styles from "./styles.module.css";
 
@@ -70,7 +75,14 @@ function replaceSearchTags(search, newTags) {
 }
 
 // Filter projects based on chosen project tags, toggle operator or searchbar value
-function filterProjects(projects, selectedTags, latest, operator, searchName, unfilteredProjects) {
+function filterProjects(
+  projects,
+  selectedTags,
+  latest,
+  operator,
+  searchName,
+  unfilteredProjects
+) {
   // Check if "LAST" filter is applied to decide if to filter through all projects or only last ones
   if (latest === "LAST") {
     var projects = unfilteredProjects.slice(-10);
@@ -181,44 +193,44 @@ function ShowcaseFilters() {
           const { label, description, color } = Tags[tag];
           const id = `showcase_checkbox_id_${tag}`;
           return (
-              <div key={i} className={styles.checkboxListItem}>
-                <ShowcaseTooltip
+            <div key={i} className={styles.checkboxListItem}>
+              <ShowcaseTooltip
+                id={id}
+                text={description}
+                anchorEl="#__docusaurus"
+              >
+                <ShowcaseTagSelect
+                  tag={tag}
                   id={id}
-                  text={description}
-                  anchorEl="#__docusaurus"
-                >
-                  <ShowcaseTagSelect
-                    tag={tag}
-                    id={id}
-                    label={label}
-                    icon={
-                      label === "Favorite" ? (
-                        <span
-                          style={{
-                            marginLeft: 8,
-                          }}
-                        >
-                          <Fav
-                            className={styles.svgIconFavorite}
-                            size="small"
-                            style={{ display: "grid" }}
-                          />
-                        </span>
-                      ) : (
-                        <span
-                          style={{
-                            backgroundColor: color,
-                            width: 10,
-                            height: 10,
-                            borderRadius: "50%",
-                            marginLeft: 8,
-                          }}
+                  label={label}
+                  icon={
+                    label === "Favorite" ? (
+                      <span
+                        style={{
+                          marginLeft: 8,
+                        }}
+                      >
+                        <Fav
+                          className={styles.svgIconFavorite}
+                          size="small"
+                          style={{ display: "grid" }}
                         />
-                      )
-                    }
-                  />
-                </ShowcaseTooltip>
-              </div>
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          backgroundColor: color,
+                          width: 10,
+                          height: 10,
+                          borderRadius: "50%",
+                          marginLeft: 8,
+                        }}
+                      />
+                    )
+                  }
+                />
+              </ShowcaseTooltip>
+            </div>
           );
         })}
       </div>
@@ -227,7 +239,17 @@ function ShowcaseFilters() {
 }
 
 function ShowcaseCards() {
+  const [expandedCardTitle, setExpandedCardTitle] = useState(null);
   const filteredProjects = useFilteredProjects();
+
+  const handleChildClick = (title) => {
+    // When a child node is clicked, expand the matching card
+    setExpandedCardTitle(title);
+  };
+
+  const handleToggle = (title) => {
+    setExpandedCardTitle((prevTitle) => (prevTitle === title ? null : title));
+  };
 
   if (filteredProjects.length === 0) {
     return (
@@ -258,7 +280,13 @@ function ShowcaseCards() {
               </div>
               <ul className={clsx("container", styles.showcaseList)}>
                 {favoriteShowcases.map((showcase) => (
-                  <ShowcaseCard key={showcase.title} showcase={showcase} />
+                  <ShowcaseCard
+                    key={showcase.title}
+                    showcase={showcase}
+                    isExpanded={expandedCardTitle === showcase.title}
+                    onToggle={() => handleToggle(showcase.title)}
+                    onChildClick={handleChildClick}
+                  />
                 ))}
               </ul>
             </div>
@@ -267,7 +295,13 @@ function ShowcaseCards() {
             <h2 className={styles.showcaseHeader}>All Projects</h2>
             <ul className={styles.showcaseList}>
               {otherShowcases.map((showcase) => (
-                <ShowcaseCard key={showcase.title} showcase={showcase} />
+                <ShowcaseCard
+                  key={showcase.title}
+                  showcase={showcase}
+                  isExpanded={expandedCardTitle === showcase.title}
+                  onToggle={() => handleToggle(showcase.title)}
+                  onChildClick={handleChildClick}
+                />
               ))}
             </ul>
           </div>
@@ -281,7 +315,13 @@ function ShowcaseCards() {
           </div>
           <ul className={styles.showcaseList}>
             {filteredProjects.map((showcase) => (
-              <ShowcaseCard key={showcase.title} showcase={showcase} />
+              <ShowcaseCard
+                key={showcase.title}
+                showcase={showcase}
+                isExpanded={expandedCardTitle === showcase.title}
+                onToggle={() => handleToggle(showcase.title)}
+                onChildClick={handleChildClick}
+              />
             ))}
           </ul>
         </div>
@@ -335,10 +375,16 @@ function SearchBar() {
 function MetaData() {
   return (
     <Head>
-      <meta property="og:image" content="https://developers.cardano.org/img/og/og-showcase.png" />
-      <meta name="twitter:image" content="https://developers.cardano.org/img/og/og-showcase.png" />
+      <meta
+        property="og:image"
+        content="https://developers.cardano.org/img/og/og-showcase.png"
+      />
+      <meta
+        name="twitter:image"
+        content="https://developers.cardano.org/img/og/og-showcase.png"
+      />
     </Head>
-  )
+  );
 }
 
 function Showcase() {
