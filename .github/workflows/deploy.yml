@@ -1,28 +1,30 @@
-name: Deploy to GitHub Pages
-
-permissions:
-  contents: write
+name: Deploy Docusaurus site
 
 on:
   push:
     branches:
-      - main
+      - main # Trigger deployment on push to 'main' branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Node.js
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18 # Use the appropriate version of Node.js for your project
+
       - name: Install dependencies
-        run: yarn
-      - name: Build the project
-        run: yarn build
+        run: yarn install
+
+      - name: Run custom build command
+        run: yarn build # This will run your custom build command
+
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+        run: yarn deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub automatically provides this secret
