@@ -22,7 +22,7 @@ jobs:
 
       # Step 3: Install dependencies (including ts-node)
       - name: Install dependencies
-        run: yarn install
+        run: yarn install -W
 
       # Step 4: Verify ts-node installation (for debugging)
       - name: Check ts-node version
