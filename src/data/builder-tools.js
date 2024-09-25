@@ -968,7 +968,7 @@ export const Showcases = [
       },
       {
         version: "3.1.1",
-        dependencies: ["plutus", "cardano-cli"],
+        dependencies: ["plutus", "cardano-cli", "Cardano Light Tools", "cardano-wallet-interface", "cardano-node", "Ansible cardano-node", "Automint", "Aiken", "Marlowe Playground", "Python Module", "Plutus Playfround", "cardano-wallet", "cardano-graphql", "cardano-rosetta", "cardano-db-sync", "cardano-addresses", "Blockfrost" ],
         traits: ["alonzo", "plutus", "nft"],
       },
     ],
